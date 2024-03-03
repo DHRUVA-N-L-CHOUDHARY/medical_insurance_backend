@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const User = require('../models/User.db')
+const User = require('../models/user.db')
 const bcrypt = require("bcrypt")
 
 const addUser = async (req, res) => {
@@ -24,7 +24,8 @@ const addUser = async (req, res) => {
         })
         res.status(200).send({
             status: 1,
-            message: "User registered successfully. Please login"
+            message: "User registered successfully. Please login",
+            userData: user
         })
     } catch (err) {
         console.log(err)
@@ -39,9 +40,7 @@ const loginUser = async (req, res) => {
         res.status(200).send({
             status: 1,
             message: "Logged in successfully",
-            userData: {
-                email: user.email
-            }
+            userData: user
         })
     } catch (err) {
         console.log(err)
