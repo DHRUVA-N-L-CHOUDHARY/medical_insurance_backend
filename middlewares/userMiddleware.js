@@ -1,6 +1,22 @@
 const mongoose = require("mongoose")
-const User = require('../models/user.db')
+const User = require("../models/user.db")
 const bcrypt = require("bcrypt")
+const jwt = require("jsonwebtoken");
+
+const authenticateUser = (req, res, next) => {
+    const token = req.cookies.accessToken;
+    if (!token) return res.status(500).send("Authentication failed. No access token");
+    else {
+        const token_secret = process.env.JWT_SECRET;
+        jwt.verify(token, token_secret, (err, userId) => {
+            if (err) return res.status(500).send("Authentication failed. Invalid token")
+            else {
+                req.userId = userId;
+                next()
+            }
+        })
+    }
+  };
 
 const checkUserExists = async (req, res, next) => {
     try {
@@ -45,6 +61,7 @@ const checkPassword = async (req, res, next) => {
 }   
 
 module.exports = {
+    authenticateUser,
     checkUserExists,
     checkPassword
 }
