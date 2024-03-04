@@ -3,15 +3,15 @@ const User = require("../models/user.db")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken");
 
-const authenticateUser = (req, res, next) => {
+const authenticate = (req, res, next) => {
     const token = req.cookies.accessToken;
     if (!token) return res.status(500).send("Authentication failed. No access token");
     else {
         const token_secret = process.env.JWT_SECRET;
-        jwt.verify(token, token_secret, (err, userId) => {
+        jwt.verify(token, token_secret, (err, _id) => {
             if (err) return res.status(500).send("Authentication failed. Invalid token")
             else {
-                req.userId = userId;
+                req._id = _id;
                 next()
             }
         })
@@ -31,7 +31,7 @@ const checkUserExists = async (req, res, next) => {
     }
 }
 
-const checkPassword = async (req, res, next) => {
+const checkUserPassword = async (req, res, next) => {
     try {
         if (!req.userExists) {
             res.send({
@@ -61,7 +61,7 @@ const checkPassword = async (req, res, next) => {
 }   
 
 module.exports = {
-    authenticateUser,
+    authenticate,
     checkUserExists,
-    checkPassword
+    checkUserPassword
 }
