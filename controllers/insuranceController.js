@@ -13,14 +13,14 @@ const addInsurance = async (req, res) => {
           return
       }
 
-      const { name, email, password, policies } = req.body
+      const { name, email, password, plans } = req.body
       const hashedPwd = await bcrypt.hash(password, 10);
 
       const insurance = await Insurance.create({
           name: name,
           email: email,
           password: hashedPwd,
-          policies: policies,
+          plans: plans,
           address: ""
       })
       res.status(200).send({

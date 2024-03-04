@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const policySchema = new mongoose.Schema({
+const planSchema = new mongoose.Schema({
   _id: {
     type: mongoose.ObjectId,
     default: () => new mongoose.Types.ObjectId()
@@ -33,8 +33,8 @@ const insuranceSchema = new mongoose.Schema({
     required: true,
     lowercase: true
   },
-  policies: {
-    type: [policySchema]
+  plans: {
+    type: [planSchema]
   },
   password: {
     type: String,
