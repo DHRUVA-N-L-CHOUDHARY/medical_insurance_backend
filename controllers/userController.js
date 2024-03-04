@@ -22,11 +22,12 @@ const addUser = async (req, res) => {
             phone: phone,
             aadhaar: aadhaar,
             password: hashedPwd,
+            address: ""
         })
         res.status(200).send({
             status: 1,
             message: "User registered successfully. Please login",
-            userData: user
+            data: user
         })
     } catch (err) {
         console.log(err)
@@ -49,7 +50,7 @@ const loginUser = async (req, res) => {
         res.status(200).send({
             status: 1,
             message: "Logged in successfully",
-            userData: user
+            data: user
         })
     } catch (err) {
         console.log(err)
@@ -58,9 +59,9 @@ const loginUser = async (req, res) => {
 
 const getLoggedUserData = async (req, res) => {
     try {
-        const user = await User.findById(req.userId)
+        const user = await User.findById(req._id)
         res.status(200).send({
-            userData: user
+            data: user
         })
     } catch (err) {
         console.log(err)
