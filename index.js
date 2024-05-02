@@ -11,7 +11,7 @@ const { checkHospitalPassword, checkHospitalExists } = require('./middlewares/ho
 const { addHospital, loginHospital, getLoggedHospitalData } = require('./controllers/hospitalController')
 
 const { checkInsuranceExists, checkInsurancePassword } = require('./middlewares/insuranceMiddleware')
-const { addInsurance, loginInsurance, getLoggedInsuranceData, addInsurancePlan, getInsurancePlans } = require('./controllers/insuranceController')
+const { addInsurance, loginInsurance, getLoggedInsuranceData, addInsurancePlan, getPlansByInsurer, getAllInsurancePlans } = require('./controllers/insuranceController')
 
 const cookies = require("cookie-parser");
 
@@ -38,7 +38,8 @@ app.get("/insurance", authenticate, getLoggedInsuranceData)
 
 // Insurance Plans
 app.post("/insurance/addPlan", addInsurancePlan)
-app.post("/insurance/getPlans", getInsurancePlans)
+app.post("/insurance/getPlansByInsurer", getPlansByInsurer)
+app.get("/insurance/getAllPlans", getAllInsurancePlans)
 // Logout
 app.delete("/logout", authenticate, logout);
 
