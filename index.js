@@ -38,7 +38,7 @@ app.get("/insurance", authenticate, getLoggedInsuranceData)
 
 // Insurance Plans
 app.put("/insurance/addPlan", addInsurancePlan)
-app.get("/insurance/getPlans", getInsurancePlans)
+app.post("/insurance/getPlans", getInsurancePlans)
 // Logout
 app.delete("/logout", authenticate, logout);
 
