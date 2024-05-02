@@ -101,7 +101,7 @@ const addInsurancePlan = async (req, res) => {
     }
 }
 
-const getInsurancePlans = async (req, res) => {
+const getPlansByInsurer = async (req, res) => {
     try {
         const { address } = req.body
 
@@ -125,11 +125,32 @@ const getInsurancePlans = async (req, res) => {
         console.log(err)
     }
 }
+const getAllInsurancePlans = async (req, res) => {
+    try {
+
+        const insurances = await Insurance.find()
+        const allPlans = []
+        for (const comp of insurances) {
+            allPlans.push(...comp.plans)
+        }
+        
+        res.status(200).send({
+            status: 1,
+            message: "Insurance plans.",
+            data: allPlans
+        })
+
+
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 module.exports = {
   addInsurance,
   loginInsurance,
   getLoggedInsuranceData,
   addInsurancePlan,
-  getInsurancePlans
+  getPlansByInsurer,
+  getAllInsurancePlans
 }
