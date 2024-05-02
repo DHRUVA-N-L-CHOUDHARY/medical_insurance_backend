@@ -13,7 +13,7 @@ const addInsurance = async (req, res) => {
           return
       }
 
-      const { name, email, password, plans } = req.body
+      const { name, email, password, plans, address } = req.body
       const hashedPwd = await bcrypt.hash(password, 10);
 
       const insurance = await Insurance.create({
@@ -21,7 +21,7 @@ const addInsurance = async (req, res) => {
           email: email,
           password: hashedPwd,
           plans: plans,
-          address: ""
+          address: address
       })
       res.status(200).send({
           status: 1,
@@ -67,8 +67,69 @@ const getLoggedInsuranceData = async (req, res) => {
   }
 }
 
+const addInsurancePlan = async (req, res) => {
+    try {
+        const { insurerAddr, name, typeOfTreatment, premiumAmount, duration, maturityAmount } = req.body
+
+        const insurance = await Insurance.findOne({ address: insurerAddr })
+        
+        if (!insurance) {
+            res.send({
+                status: 0,
+                message: "Account not found. Please register"
+            })
+        }
+
+        const newPlan = {
+            name, 
+            typeOfTreatment, 
+            premiumAmount, 
+            duration, 
+            maturityAmount
+        }
+
+        insurance.plans.push(newPlan);
+        await insurance.save();
+
+        res.status(200).send({
+            status: 1,
+            message: "Insurance plan added successfully.",
+            data: insurance
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const getInsurancePlans = async (req, res) => {
+    try {
+        const { address } = req.body
+
+        const insurance = await Insurance.findOne({ address: address })
+        if (!insurance) {
+            res.send({
+                status: 0,
+                message: "Account not found. Please register"
+            })
+        }
+
+        res.status(200).send({
+            status: 1,
+            message: "Insurance plans.",
+            data: insurance.plans,
+            address: insurance.address
+        })
+
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 module.exports = {
   addInsurance,
   loginInsurance,
-  getLoggedInsuranceData
+  getLoggedInsuranceData,
+  addInsurancePlan,
+  getInsurancePlans
 }

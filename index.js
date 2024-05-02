@@ -3,7 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const db = require('./config/db')
-const port = process.env.PORT || 9000
+const port = process.env.PORT || 3000
 const { authenticate, checkUserExists, checkUserPassword } = require('./middlewares/userMiddleware')
 const { addUser, loginUser, getLoggedUserData, logout } = require('./controllers/userController')
 
@@ -11,7 +11,7 @@ const { checkHospitalPassword, checkHospitalExists } = require('./middlewares/ho
 const { addHospital, loginHospital, getLoggedHospitalData } = require('./controllers/hospitalController')
 
 const { checkInsuranceExists, checkInsurancePassword } = require('./middlewares/insuranceMiddleware')
-const { addInsurance, loginInsurance, getLoggedInsuranceData } = require('./controllers/insuranceController')
+const { addInsurance, loginInsurance, getLoggedInsuranceData, addInsurancePlan, getInsurancePlans } = require('./controllers/insuranceController')
 
 const cookies = require("cookie-parser");
 
@@ -36,6 +36,9 @@ app.post("/register/insurance", checkInsuranceExists, addInsurance)
 app.post("/login/insurance", checkInsuranceExists, checkInsurancePassword, loginInsurance)
 app.get("/insurance", authenticate, getLoggedInsuranceData)
 
+// Insurance Plans
+app.put("/insurance/addPlan", addInsurancePlan)
+app.get("/insurance/getPlans", getInsurancePlans)
 // Logout
 app.delete("/logout", authenticate, logout);
 

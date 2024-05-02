@@ -5,19 +5,23 @@ const planSchema = new mongoose.Schema({
     type: mongoose.ObjectId,
     default: () => new mongoose.Types.ObjectId()
   },  
+  name: {
+    type: String,
+    required: true
+  },
+  typeOfTreatment: {
+    type: String,
+    required: true
+  },
+  premiumAmount: {
+    type: Number,
+    required: true
+  },
   duration: {
     type: Number,
     required: true
   },
-  amount: {
-    type: Number,
-    required: true
-  },
-  limit: {
-    type: Number,
-    required: true
-  },
-  deductible: {
+  maturityAmount: {
     type: Number,
     required: true
   }
